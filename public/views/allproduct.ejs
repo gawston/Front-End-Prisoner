@@ -1,0 +1,50 @@
+<!-- allProducts.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('components/utility.ejs') %>
+    <title>สินค้าทั้งหมด | สหกรณ์เรือนจำ</title>
+</head>
+<body class="bg-gray-50">
+    <!-- navbar -->
+    <%- include('components/navbar.ejs', { userName: 'เข้าสู่ระบบ', orderCount: '12' }) %>
+
+    <div class="container mx-auto px-4 pt-8 pb-4 font-semibold text-[#222] text-4xl">
+        สินค้าทั้งหมด
+    </div>
+
+    <div class="container mx-auto">
+        <!-- Category Filter -->
+        <div class="mx-4 px-4 py-2 bg-white h-full border rounded-md">
+            <ul class="grid grid-cols-3 text-center md:flex items-center gap-4">
+                <li class="focus:underline hover:bg-gray-50 hover:border-gray-200 border border-white px-2 rounded-md transition-all"><a href="/product">ทั้งหมด</a></li>
+                <li class="focus:underline hover:bg-gray-50 hover:border-gray-200 border border-white px-2 rounded-md transition-all"><a href="/product/foods">อาหาร</a></li>
+                <li class="focus:underline hover:bg-gray-50 hover:border-gray-200 border border-white px-2 rounded-md transition-all"><a href="/product/drinks">เครื่องดื่ม</a></li>
+                <li class="focus:underline hover:bg-gray-50 hover:border-gray-200 border border-white px-2 rounded-md transition-all"><a href="/product/items">เครื่องใช้</a></li>
+                <li class="focus:underline hover:bg-gray-50 hover:border-gray-200 border border-white px-2 rounded-md transition-all"><a href="/product/clothes">เสื้อผ้า</a></li>
+                <li class="focus:underline hover:bg-gray-50 hover:border-gray-200 border border-white px-2 rounded-md transition-all"><a href="/product/medicine">ยาสามัญ</a></li>
+                <li class="focus:underline hover:bg-gray-50 hover:border-gray-200 border border-white px-2 rounded-md transition-all"><a href="/product/stationery">เครื่องเขียน</a></li>
+                <!-- <li class="focus:underline hover:bg-gray-50 hover:border-gray-200 border border-white px-2 rounded-md transition-all"><a href="/product/idk">คิดไม่ออก</a></li> -->
+            </ul>
+        </div>
+    </div>
+
+    <div class=" container mx-auto grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5">
+        <% for(let i = 0; i < products.length; i++) { %>
+            <%- include('components/product.ejs', {
+                productId: products[products.length - i - 1].productid,
+                productName: products[products.length - i - 1].productname, 
+                price: products[products.length - i - 1].productprice,
+                imgurl: products[products.length - i - 1].imgurl 
+                }) %>
+        <% } %>
+    </div>
+
+    <!-- footer -->
+    <%- include('components/footer.ejs') %>
+    <script src="../javascript/script.js"></script>
+</body>
+</html>

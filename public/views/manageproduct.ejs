@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('components/utility.ejs') %>
+    <title>Document</title>
+</head>
+<body class="bg-gray-50">
+    <!-- navbar -->
+    <%- include('components/navbar.ejs', { orderCount: '12' }) %>
+    <div class="container mx-auto text-center pt-10 py-6 font-semibold text-[#222] text-4xl">
+        จัดการสินค้า
+    </div>
+    <div class="container mx-auto px-4 mb-4">
+        <a href="/addproduct" class=" px-2 py-1 bg-[#222] text-white hover:text-[#F4BF14] rounded-md transition-all">เพิ่มสินค้าเข้าสู่ระบบ</a>
+    </div>
+    <div class="container mx-auto">
+        <div class="flex items-center bg-white gap-4 py-2 px-4 rounded-[0.375rem_0.375rem_0_0] whitespace-nowrap font-semibold border-t border-x">
+            <div class="w-1/2 text-center">สินค้า</div>
+            <div class="w-1/6 text-center">หมวดหมู่</div>
+            <div class="w-1/6 text-center">ราคา</div>
+            <div class="w-1/6 text-center">ดำเนินการ</div>
+        </div>
+    </div>
+
+    <div class="container mx-auto">
+        <% for(let i = 0; i < products.length; i++) { %>
+            <%- include('components/manageproductitems.ejs', {
+                productName: products[i].productname, 
+                category: products[i].productcategory,
+                price: products[i].productprice,
+                imgurl: products[i].imgurl
+                }) %>
+        <% } %>
+    </div>
+</body>
+</html>

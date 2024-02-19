@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('components/utility.ejs') %>
+    <title>Document</title>
+</head>
+<body class="bg-gray-50"> 
+    <!-- navbar -->
+    <%- include('components/navbar.ejs', { orderCount: '12' }) %>
+    <div class="container mx-auto text-center py-10 font-semibold text-[#222] text-4xl">
+        เพิ่มสินค้า
+    </div>
+
+    <form action="/addproduct" method="post" class="container mx-auto p-4 bg-white rounded-md border flex flex-col gap-2 mb-4">
+        <div class="flex items-center gap-2">
+            <p class="text-xl font-semibold">ชื่อสินค้า :</p>
+            <input type="text" name="productname" class="bg-gray-50 border rounded-md px-2 h-10" required>
+        </div>
+        <div class="flex items-center gap-2">
+            <p class="text-xl font-semibold">หมวดหมู่ :</p>
+            <select name="productcategory" id="productcategory" class="px-4 py-1 border rounded-md" required>
+                <option value="" disabled selected>เลือกหมวดหมู่</option>
+                <option value="foods">อาหาร</option>
+                <option value="drinks">เครื่องดื่ม</option>
+                <option value="items">เครื่องใช้</option>
+                <option value="clothes">เสื้อผ้า</option>
+                <option value="medicine">ยาสามัญ</option>
+                <option value="stationery">เครื่องเขียน</option>
+            </select>
+        </div>
+        <div class="flex items-center gap-2">
+            <p class="text-xl font-semibold">ราคา :</p>
+            <input type="text" name="productprice" class="bg-gray-50 border rounded-md px-2 h-10" required>
+        </div>
+        <div class="flex items-center gap-2">
+            <p class="text-xl font-semibold">รูปภาพ(url) :</p>
+            <input type="text" name="imgurl" class="bg-gray-50 border rounded-md px-2 h-10" required>
+        </div>
+        <div class="container mx-auto flex justify-center items-center gap-2">
+            <input type="submit" class="text-lg font-semibold bg-[#222] text-white hover:text-[#F4BF14] px-4 py-2 rounded-md transition-all cursor-pointer" value="เพิ่มสินค้า"></input>
+        </div>
+    </form>
+</body>
+</html>

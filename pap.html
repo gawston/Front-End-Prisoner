@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>สหกรณ์เรือนจำ | หน้าแรก</title>
+</head>
+<body class="bg-gray-50">
+    <img src="https://wallpapercave.com/wp/wp2747239.jpg" class="w-full h-[65vh] object-cover absolute z-[-1] brightness-50">
+    <!-- Navbar -->
+    <div id="navbar" class="sticky top-0 w-full text-white py-6 transition-all z-[999]">
+        <nav class="container mx-auto flex justify-between items-center px-6 lg:px-4">
+            <a href="#"><h1 class="text-2xl font-semibold">สหกรณ์เรือนจำ</h1></a>
+            <!-- mobile btn -->
+            <div id="mobile-btn" class="flex items-center lg:hidden cursor-pointer">
+                <ion-icon name="menu-sharp" class="text-3xl"></ion-icon>
+            </div>
+            <ul class="hidden lg:flex items-center gap-8 font-semibold">
+                <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="#">หน้าแรก</a></li>
+                <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="#">สินค้า</a></li>
+                <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="#">ประวัติการสั่งซื้อ</a></li>
+                <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="cart.html" class="flex items-center gap-1">
+                    <ion-icon name="cart"></ion-icon> <span>ตะกร้าสินค้า</span> <span id="cart-count">(12)</span>
+                </a></li>
+                <li id="login-btn" class="bg-white text-[#222] py-1 px-2 hover:text-[#F4BF14] hover:drop-shadow-md rounded-md transition-all"><a href="login.html" class="flex items-center gap-1">
+                    <ion-icon name="person"></ion-icon> <span>เข้าสู่ระบบ</span>
+                </a></li>
+            </ul>
+        </nav>
+        <!-- mobile nav menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-[#222] bg-opacity-50 backdrop-blur-md w-full h-full fixed top-0 left-0 z-[-1] transition-all">
+            <div class="flex flex-col justify-center items-center h-full w-full px-8">
+                <a href="#" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">หน้าแรก</a>
+                <hr id="underline-mobilenav" class="w-full opacity-50"/>
+                <a href="#" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">สินค้า</a>
+                <hr id="underline-mobilenav" class="w-full opacity-50"/>
+                <a href="#" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">ประวัติการสั่งซื้อ</a>
+                <hr id="underline-mobilenav" class="w-full opacity-50"/>
+                <a href="#" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">ตะกร้าสินค้า</a>
+                <hr id="underline-mobilenav" class="w-full opacity-50"/>
+                <a href="login.html" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">เข้าสู่ระบบ</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="container mx-auto p-4 flex flex-col justify-center items-center h-[50vh] text-white">
+        <p class="font-semibold text-xl lg:text-2xl">ยินดีต้อนรับเข้าสู่เว็บไซต์</p>
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold">สหกรณ์เรือนจำ</h1>
+        <p class="text-sm lg:text-md text-center mb-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, repellat amet maxime nesciunt numquam, ad iste, suscipit ut assumenda ipsum debitis corporis consequatur fugiat impedit!</p>
+    </div>
+    <!-- spaceing -->
+    <div class="container mx-auto h-16"></div>
+
+    <!-- Product -->
+    <div class="container mx-auto lg:px-20 lg:py-16 pt-10 px-6">
+        <div class="flex justify-between items-center">
+            <h1 class="text-3xl font-semibold">สินค้าใหม่</h1>
+            <a href="#" class="text-lg font-semibold p-2 border bg-[#222] text-white hover:text-[#F4BF14] rounded-lg transition-all">ดูสินค้าทั้งหมด</a>
+        </div>
+        <hr class="my-4"/>
+        <!-- New Product -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+    
+            <!-- start -->
+            <div class="w-full p-4">
+                <div class="bg-white p-4 border hover:shadow-lg transition-all rounded-md">
+                    <div id="picture" class="flex items-center justify-center w-full h-48">
+                        <img src="https://www.sahapat.co.th/product/assets/uploads/img/product/image_th/20190813095437_2533675D-CF0C-4BA0-B11D-B06B1883F33C.png" class="w-40 object-cover"/>
+                    </div>
+                    <h1 class="text-xl font-medium mt-2">มาม่ารสต้มยำกุ้ง</h1>
+                    <div class="flex justify-between items-center">
+                        <p class="text-lg font-medium text-[#222]">ราคา <span class="text-red-500 font-semibold">7</span> บาท</p>
+                        <div class="flex gap-2">
+                            <label for="amount" class="font-medium">จำนวน</label>
+                            <input type="number" name="amount" id="amount" class="bg-gray-50 border w-12 text-center rounded-md" value="1">
+                            <!-- <p>รายการ</p> -->
+                        </div>
+                    </div>
+                    <button type="button" class="w-full bg-[#222] text-white py-2 mt-2 rounded-md hover:text-[#F4BF14] transition-all">เพิ่มลงตะกร้า</button>
+                </div>
+            </div>
+            <!-- end -->
+            <!-- start -->
+            <div class="w-full p-4">
+                <div class="bg-white p-4 border hover:shadow-lg transition-all rounded-md">
+                    <div id="picture" class="flex items-center justify-center w-full h-48">
+                        <img src="https://www.sahapat.co.th/product/assets/uploads/img/product/image_th/20190813095437_2533675D-CF0C-4BA0-B11D-B06B1883F33C.png" class="w-40 object-cover"/>
+                    </div>
+                    <h1 class="text-xl font-medium mt-2">มาม่ารสต้มยำกุ้ง</h1>
+                    <div class="flex justify-between items-center">
+                        <p class="text-lg font-medium text-[#222]">ราคา <span class="text-red-500 font-semibold">7</span> บาท</p>
+                        <div class="flex gap-2">
+                            <label for="amount" class="font-medium">จำนวน</label>
+                            <input type="number" name="amount" id="amount" class="bg-gray-50 border w-12 text-center rounded-md" value="1">
+                            <!-- <p>รายการ</p> -->
+                        </div>
+                    </div>
+                    <button type="button" class="w-full bg-[#222] text-white py-2 mt-2 rounded-md hover:text-[#F4BF14] transition-all">เพิ่มลงตะกร้า</button>
+                </div>
+            </div>
+            <!-- end -->
+            <!-- start -->
+            <div class="w-full p-4">
+                <div class="bg-white p-4 border hover:shadow-lg transition-all rounded-md">
+                    <div id="picture" class="flex items-center justify-center w-full h-48">
+                        <img src="https://www.sahapat.co.th/product/assets/uploads/img/product/image_th/20190813095437_2533675D-CF0C-4BA0-B11D-B06B1883F33C.png" class="w-40 object-cover"/>
+                    </div>
+                    <h1 class="text-xl font-medium mt-2">มาม่ารสต้มยำกุ้ง</h1>
+                    <div class="flex justify-between items-center">
+                        <p class="text-lg font-medium text-[#222]">ราคา <span class="text-red-500 font-semibold">7</span> บาท</p>
+                        <div class="flex gap-2">
+                            <label for="amount" class="font-medium">จำนวน</label>
+                            <input type="number" name="amount" id="amount" class="bg-gray-50 border w-12 text-center rounded-md" value="1">
+                            <!-- <p>รายการ</p> -->
+                        </div>
+                    </div>
+                    <button type="button" class="w-full bg-[#222] text-white py-2 mt-2 rounded-md hover:text-[#F4BF14] transition-all">เพิ่มลงตะกร้า</button>
+                </div>
+            </div>
+            <!-- end -->
+            <!-- start -->
+            <div class="w-full p-4">
+                <div class="bg-white p-4 border hover:shadow-lg transition-all rounded-md">
+                    <div id="picture" class="flex items-center justify-center w-full h-48">
+                        <img src="https://www.sahapat.co.th/product/assets/uploads/img/product/image_th/20190813095437_2533675D-CF0C-4BA0-B11D-B06B1883F33C.png" class="w-40 object-cover"/>
+                    </div>
+                    <h1 class="text-xl font-medium mt-2">มาม่ารสต้มยำกุ้ง</h1>
+                    <div class="flex justify-between items-center">
+                        <p class="text-lg font-medium text-[#222]">ราคา <span class="text-red-500 font-semibold">7</span> บาท</p>
+                        <div class="flex gap-2">
+                            <label for="amount" class="font-medium">จำนวน</label>
+                            <input type="number" name="amount" id="amount" class="bg-gray-50 border w-12 text-center rounded-md" value="1">
+                            <!-- <p>รายการ</p> -->
+                        </div>
+                    </div>
+                    <button type="button" class="w-full bg-[#222] text-white py-2 mt-2 rounded-md hover:text-[#F4BF14] transition-all">เพิ่มลงตะกร้า</button>
+                </div>
+            </div>
+            <!-- end -->
+        </div>
+
+        <!-- best seller product -->
+        <div class="mt-10">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-semibold">สินค้าขายดี</h1>
+                <a href="#" class="text-lg font-semibold p-2 border bg-[#222] text-white hover:text-[#F4BF14] rounded-lg transition-all">ดูสินค้าทั้งหมด</a>
+            </div>
+            <hr class="my-4"/>
+            <!-- Best Seller Product -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+                <!-- start -->
+                <div class="w-full p-4">
+                    <div class="bg-white p-4 border hover:shadow-lg transition-all rounded-md">
+                        <div id="picture" class="flex items-center justify-center w-full h-48">
+                            <img src="https://www.sahapat.co.th/product/assets/uploads/img/product/image_th/20190813095437_2533675D-CF0C-4BA0-B11D-B06B1883F33C.png" class="w-40 object-cover"/>
+                        </div>
+                        <h1 class="text-xl font-medium mt-2">มาม่ารสต้มยำกุ้ง</h1>
+                        <div class="flex justify-between items-center">
+                            <p class="text-lg font-medium text-[#222]">ราคา <span class="text-red-500 font-semibold">7</span> บาท</p>
+                            <div class="flex gap-2">
+                                <label for="amount" class="font-medium">จำนวน</label>
+                                <input type="number" name="amount" id="amount" class="bg-gray-50 border w-12 text-center rounded-md" value="1">
+                                <!-- <p>รายการ</p> -->
+                            </div>
+                        </div>
+                        <button type="button" class="w-full bg-[#222] text-white py-2 mt-2 rounded-md hover:text-[#F4BF14] transition-all">เพิ่มลงตะกร้า</button>
+                    </div>
+                </div>
+                <!-- end -->
+                <!-- start -->
+                <div class="w-full p-4">
+                    <div class="bg-white p-4 border hover:shadow-lg transition-all rounded-md">
+                        <div id="picture" class="flex items-center justify-center w-full h-48">
+                            <img src="https://www.sahapat.co.th/product/assets/uploads/img/product/image_th/20190813095437_2533675D-CF0C-4BA0-B11D-B06B1883F33C.png" class="w-40 object-cover"/>
+                        </div>
+                        <h1 class="text-xl font-medium mt-2">มาม่ารสต้มยำกุ้ง</h1>
+                        <div class="flex justify-between items-center">
+                            <p class="text-lg font-medium text-[#222]">ราคา <span class="text-red-500 font-semibold">7</span> บาท</p>
+                            <div class="flex gap-2">
+                                <label for="amount" class="font-medium">จำนวน</label>
+                                <input type="number" name="amount" id="amount" class="bg-gray-50 border w-12 text-center rounded-md" value="1">
+                                <!-- <p>รายการ</p> -->
+                            </div>
+                        </div>
+                        <button type="button" class="w-full bg-[#222] text-white py-2 mt-2 rounded-md hover:text-[#F4BF14] transition-all">เพิ่มลงตะกร้า</button>
+                    </div>
+                </div>
+                <!-- end -->
+                <!-- start -->
+                <div class="w-full p-4">
+                    <div class="bg-white p-4 border hover:shadow-lg transition-all rounded-md">
+                        <div id="picture" class="flex items-center justify-center w-full h-48">
+                            <img src="https://www.sahapat.co.th/product/assets/uploads/img/product/image_th/20190813095437_2533675D-CF0C-4BA0-B11D-B06B1883F33C.png" class="w-40 object-cover"/>
+                        </div>
+                        <h1 class="text-xl font-medium mt-2">มาม่ารสต้มยำกุ้ง</h1>
+                        <div class="flex justify-between items-center">
+                            <p class="text-lg font-medium text-[#222]">ราคา <span class="text-red-500 font-semibold">7</span> บาท</p>
+                            <div class="flex gap-2">
+                                <label for="amount" class="font-medium">จำนวน</label>
+                                <input type="number" name="amount" id="amount" class="bg-gray-50 border w-12 text-center rounded-md" value="1">
+                                <!-- <p>รายการ</p> -->
+                            </div>
+                        </div>
+                        <button type="button" class="w-full bg-[#222] text-white py-2 mt-2 rounded-md hover:text-[#F4BF14] transition-all">เพิ่มลงตะกร้า</button>
+                    </div>
+                </div>
+                <!-- end -->
+                <!-- start -->
+                <div class="w-full p-4">
+                    <div class="bg-white p-4 border hover:shadow-lg transition-all rounded-md">
+                        <div id="picture" class="flex items-center justify-center w-full h-48">
+                            <img src="https://www.sahapat.co.th/product/assets/uploads/img/product/image_th/20190813095437_2533675D-CF0C-4BA0-B11D-B06B1883F33C.png" class="w-40 object-cover"/>
+                        </div>
+                        <h1 class="text-xl font-medium mt-2">มาม่ารสต้มยำกุ้ง</h1>
+                        <div class="flex justify-between items-center">
+                            <p class="text-lg font-medium text-[#222]">ราคา <span class="text-red-500 font-semibold">7</span> บาท</p>
+                            <div class="flex gap-2">
+                                <label for="amount" class="font-medium">จำนวน</label>
+                                <input type="number" name="amount" id="amount" class="bg-gray-50 border w-12 text-center rounded-md" value="1">
+                                <!-- <p>รายการ</p> -->
+                            </div>
+                        </div>
+                        <button type="button" class="w-full bg-[#222] text-white py-2 mt-2 rounded-md hover:text-[#F4BF14] transition-all">เพิ่มลงตะกร้า</button>
+                    </div>
+                </div>
+                <!-- end -->
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <div class="w-full border-t">
+        <div class="container mx-auto flex flex-col justify-center items-center p-6">
+            <p class="text-center">เกี่ยวกับเรา</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

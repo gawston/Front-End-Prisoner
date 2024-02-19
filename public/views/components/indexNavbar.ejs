@@ -1,0 +1,109 @@
+<div id="navbar" class="sticky top-0 w-full text-white py-6 transition-all z-[999]">
+    <nav class="container mx-auto flex justify-between items-center px-6 lg:px-4">
+        <a href="#"><h1 class="text-2xl font-semibold">สหกรณ์เรือนจำ</h1></a>
+        <!-- mobile btn -->
+        <div id="mobile-btn" class="flex items-center lg:hidden cursor-pointer">
+            <ion-icon name="menu-sharp" class="text-3xl"></ion-icon>
+        </div>
+        <ul class="hidden lg:flex items-center gap-8 font-semibold">
+            <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="#">หน้าแรก</a></li>
+            <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/product">สินค้า</a></li>
+            <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/history">ประวัติการสั่งซื้อ</a></li>
+            <% if(user != null) { %>
+                <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/cart" class="flex items-center gap-1">
+                    <ion-icon name="cart"></ion-icon> <span>ตะกร้าสินค้า</span> <span id="cart-count">(<%= orderCount %>)</span>
+                </a></li>
+                <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/profile" class="flex items-center gap-1">
+                    <ion-icon name="person"></ion-icon> <span><%= user.data.username %></span>
+                </a></li>
+                <li class="hover:text-center hover:drop-shadow-md transition-all" id="login-btn"><a id="logout-btn" href="/logout" class="bg-white text-[#222] hover:text-[#F4BF14] px-2 py-1 rounded-md transition-all">ออกจากระบบ</a></li>
+            <% } else { %>
+                <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/cart" class="flex items-center gap-1">
+                    <ion-icon name="cart"></ion-icon> <span>ตะกร้าสินค้า</span></span>
+                </a></li>
+                <li><a id="login-btn" href="/login" class="bg-white text-[#222] hover:text-[#F4BF14] px-2 py-1 rounded-md transition-all">เข้าสู่ระบบ</a></li>
+            <% } %>
+        </ul>
+    </nav>
+    <!-- mobile nav menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-[#222] bg-opacity-50 backdrop-blur-md w-full h-full fixed top-0 left-0 z-[-1] transition-all">
+        <div class="flex flex-col justify-center items-center h-full w-full px-8">
+            <a href="#" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">หน้าแรก</a>
+            <hr id="underline-mobilenav" class="w-full opacity-50"/>
+            <a href="/product" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">สินค้า</a>
+            <hr id="underline-mobilenav" class="w-full opacity-50"/>
+            <a href="/history" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">ประวัติการสั่งซื้อ</a>
+            <hr id="underline-mobilenav" class="w-full opacity-50"/>
+            <a href="/cart" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">ตะกร้าสินค้า</a>
+            <hr id="underline-mobilenav" class="w-full opacity-50"/>
+            <% if(user != null) { %>
+                <a href="/profile" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all"> <%= user.data.username %> </a>
+                <hr id="underline-mobilenav" class="w-full opacity-50"/>
+                <a href="/logout" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">ออกจากระบบ</a>
+            <% } else { %>
+                <a href="/login" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">เข้าสู่ระบบ</a>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<script>
+    const nav = document.getElementById('navbar');
+    const loginbtn = document.getElementById('login-btn');
+    const logoutbtn = document.getElementById('logout-btn');
+
+    const mobileBtn = document.getElementById('mobile-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+        // Mobile menu
+    mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+
+        if(mobileMenu.classList.contains('hidden')) {
+            mobileBtn.innerHTML = '<ion-icon name="menu-sharp" class="text-3xl"></ion-icon>';
+        } else {
+            mobileBtn.innerHTML = '<ion-icon name="close-sharp" class="text-3xl"></ion-icon>';
+        }
+
+        // Close mobile menu when click a link
+        mobileMenu.addEventListener('click', (e) => {
+            if(e.target.tagName === 'A') {
+                mobileMenu.classList.add('hidden');
+                mobileBtn.innerHTML = '<ion-icon name="menu-sharp" class="text-3xl"></ion-icon>';
+            }
+        });
+    });
+
+        // Navbar scroll
+    window.addEventListener('scroll', () => {
+        if(window.scrollY > 200) {
+            nav.classList.remove('text-white', 'py-6');
+            nav.classList.add('bg-white', 'shadow-md', 'text-[#222]', 'py-4');
+            
+            mobileMenu.classList.add('bg-gray-50');
+            mobileMenu.classList.remove('bg-[#222]');
+
+            loginbtn.classList.remove('bg-white', 'text-[#222]');
+            loginbtn.classList.add('bg-[#222]', 'text-white');
+
+            if(logoutbtn) {
+                logoutbtn.classList.remove('bg-white', 'text-[#222]');
+                logoutbtn.classList.add('bg-[#222]', 'text-white');
+            }
+        } else {
+            nav.classList.remove('bg-white', 'shadow-md', 'text-[#222]', 'py-4');
+            nav.classList.add('text-white', 'py-6');
+
+            mobileMenu.classList.remove('bg-gray-50');
+            mobileMenu.classList.add('bg-[#222]');
+
+            loginbtn.classList.remove('bg-[#222]', 'text-white');
+            loginbtn.classList.add('bg-white', 'text-[#222]');
+
+            if(logoutbtn) {
+                logoutbtn.classList.remove('bg-[#222]', 'text-white');
+                logoutbtn.classList.add('bg-white', 'text-[#222]');
+            }
+        }
+    });
+</script>

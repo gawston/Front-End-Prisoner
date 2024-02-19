@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('components/utility.ejs') %>
+    <title>สหกรณ์เรือนจำ</title>
+</head>
+<body class="bg-gray-50">
+    <!-- background -->
+    <img src="https://wallpapercave.com/wp/wp2747239.jpg" class="w-full h-[65vh] object-cover absolute z-[-1] brightness-50">
+    <!-- Navbar -->
+    <%- include('components/indexNavbar.ejs', { orderCount: '12' }) %>
+
+    <!-- Hero -->
+    <div class="container mx-auto p-4 flex flex-col justify-center items-center h-[50vh] text-white">
+        <p class="font-semibold text-xl lg:text-2xl">ยินดีต้อนรับเข้าสู่เว็บไซต์</p>
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold">สหกรณ์เรือนจำ</h1>
+        <p class="text-sm lg:text-md text-center mb-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, repellat amet maxime nesciunt numquam, ad iste, suscipit ut assumenda ipsum debitis corporis consequatur fugiat impedit!</p>
+    </div>
+    <!-- spaceing -->
+    <div class="container mx-auto h-16"></div>
+
+    <!-- New Product -->
+    <div class="container mx-auto lg:px-20 lg:py-16 pt-10 px-6">
+        <div class="flex justify-between items-center">
+            <h1 class="text-3xl font-semibold">สินค้าใหม่</h1>
+            <a href="/product" class="text-lg font-semibold p-2 border bg-[#222] text-white hover:text-[#F4BF14] rounded-lg transition-all">ดูสินค้าทั้งหมด</a>
+        </div>
+        <hr class="my-4"/>
+        <!-- New Product items -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+            <!-- get product from app.locals.products -->
+            <% for(let i = 0; i < 4; i++) { %>
+                <%- include('components/product.ejs', {
+                    productId: products[products.length - i - 1].productid,
+                    productName: products[products.length - i - 1].productname, 
+                    price: products[products.length - i - 1].productprice,
+                    imgurl: products[products.length - i - 1].imgurl 
+                    }) %>
+            <% } %>
+        </div>
+
+        <!-- best seller product -->
+        <div class="mt-10">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-semibold">สินค้าขายดี</h1>
+                <a href="/product" class="text-lg font-semibold p-2 border bg-[#222] text-white hover:text-[#F4BF14] rounded-lg transition-all">ดูสินค้าทั้งหมด</a>
+            </div>
+            <hr class="my-4"/>
+            <!-- Best Seller Product items -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+                <% for(let i = 0; i < 4; i++) { 
+                        let randomIndexArray = [];
+                        let randomIndex = Math.floor(Math.random() * products.length);
+                        for(let j = 0; j < randomIndexArray.length; j++) {
+                            if(randomIndexArray[j] === randomIndex) {
+                                randomIndex = Math.floor(Math.random() * products.length);
+                                j = 0;
+                            }
+                        }
+                        randomIndexArray.push(randomIndex);
+                    %>
+                    <%- include('components/product.ejs', { 
+                        productId: products[randomIndex].productid,
+                        productName: products[randomIndex].productname, 
+                        price: products[randomIndex].productprice,
+                        imgurl: products[randomIndex].imgurl 
+                        }) %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <%- include('components/footer.ejs') %>
+
+    <script src="../javascript/script.js"></script>
+</body>
+</html>
