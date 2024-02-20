@@ -7,8 +7,13 @@
     <title>Document</title>
 </head>
 <body class="bg-gray-50">
+    <% if (editprofileerror) { %>
+        <script>
+            alert('เบอร์โทรศัพท์นี้มีผู้ใช้งานแล้ว');
+        </script>
+    <% } %>
     <!-- navbar -->
-    <%- include('components/navbar.ejs', { orderCount: '12' }) %>
+    <%- include('components/navbar.ejs') %>
     <div class="container mx-auto text-center py-10 font-semibold text-[#222] text-4xl">
         ข้อมูลส่วนตัว
     </div>

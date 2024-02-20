@@ -10,13 +10,27 @@
             <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/product">สินค้า</a></li>
             <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/history">ประวัติการสั่งซื้อ</a></li>
             <% if(user != null) { %>
-                <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/cart" class="flex items-center gap-1">
-                    <ion-icon name="cart"></ion-icon> <span>ตะกร้าสินค้า</span> <span id="cart-count">(<%= orderCount %>)</span>
-                </a></li>
-                <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/profile" class="flex items-center gap-1">
-                    <ion-icon name="person"></ion-icon> <span><%= user.data.username %></span>
-                </a></li>
-                <li class="hover:text-center hover:drop-shadow-md transition-all" id="login-btn"><a id="logout-btn" href="/logout" class="bg-white text-[#222] hover:text-[#F4BF14] px-2 py-1 rounded-md transition-all">ออกจากระบบ</a></li>
+                <% if(user.data.role === 'admin') { %>
+                    <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/manageproduct">จัดการสินค้า</a></li>
+                    <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/profile" class="flex items-center gap-1">
+                        <ion-icon name="person"></ion-icon> <span><%= user.data.username %></span>
+                    </a></li>
+                    <li class="hover:text-center hover:drop-shadow-md transition-all" id="login-btn"><a id="logout-btn" href="/logout" class="bg-white text-[#222] hover:text-[#F4BF14] px-2 py-1 rounded-md transition-all">ออกจากระบบ</a></li>
+                <% } else { %>
+                    <% if(cartlength > 0) { %>
+                        <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/cart" class="flex items-center gap-1">
+                            <ion-icon name="cart"></ion-icon> <span>ตะกร้าสินค้า</span>
+                        </a></li>
+                    <% } else { %>
+                        <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="#" onclick="alert('ไม่มีสินค้าในตระกร้า')" class="flex items-center gap-1">
+                            <ion-icon name="cart"></ion-icon> <span>ตะกร้าสินค้า</span>
+                        </a></li>
+                    <% } %>
+                    <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/profile" class="flex items-center gap-1">
+                        <ion-icon name="person"></ion-icon> <span><%= user.data.username %></span>
+                    </a></li>
+                    <li class="hover:text-center hover:drop-shadow-md transition-all" id="login-btn"><a id="logout-btn" href="/logout" class="bg-white text-[#222] hover:text-[#F4BF14] px-2 py-1 rounded-md transition-all">ออกจากระบบ</a></li>
+                <% } %>
             <% } else { %>
                 <li class="hover:text-[#F4BF14] hover:drop-shadow-md transition-all"><a href="/cart" class="flex items-center gap-1">
                     <ion-icon name="cart"></ion-icon> <span>ตะกร้าสินค้า</span></span>
@@ -34,9 +48,15 @@
             <hr id="underline-mobilenav" class="w-full opacity-50"/>
             <a href="/history" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">ประวัติการสั่งซื้อ</a>
             <hr id="underline-mobilenav" class="w-full opacity-50"/>
-            <a href="/cart" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">ตะกร้าสินค้า</a>
-            <hr id="underline-mobilenav" class="w-full opacity-50"/>
             <% if(user != null) { %>
+                <% if(user.data.role == 'admin') { %>
+                    <a href="/manageproduct" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">จัดการสินค้า</a>
+                    <hr id="underline-mobilenav" class="w-full opacity-50"/>
+                    <hr id="underline-mobilenav" class="w-full opacity-50"/>
+                <% } else { %>
+                    <a href="/cart" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">ตะกร้าสินค้า</a>
+                    <hr id="underline-mobilenav" class="w-full opacity-50"/>
+                    <% } %> 
                 <a href="/profile" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all"> <%= user.data.username %> </a>
                 <hr id="underline-mobilenav" class="w-full opacity-50"/>
                 <a href="/logout" class="text-2xl font-semibold p-4 hover:text-[#F4BF14] transition-all">ออกจากระบบ</a>

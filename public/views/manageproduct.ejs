@@ -8,12 +8,9 @@
 </head>
 <body class="bg-gray-50">
     <!-- navbar -->
-    <%- include('components/navbar.ejs', { orderCount: '12' }) %>
-    <div class="container mx-auto text-center pt-10 py-6 font-semibold text-[#222] text-4xl">
+    <%- include('components/navbar.ejs') %>
+    <div class="container mx-auto text-center py-6 font-semibold text-[#222] text-4xl">
         จัดการสินค้า
-    </div>
-    <div class="container mx-auto px-4 mb-4">
-        <a href="/addproduct" class=" px-2 py-1 bg-[#222] text-white hover:text-[#F4BF14] rounded-md transition-all">เพิ่มสินค้าเข้าสู่ระบบ</a>
     </div>
     <div class="container mx-auto">
         <div class="flex items-center bg-white gap-4 py-2 px-4 rounded-[0.375rem_0.375rem_0_0] whitespace-nowrap font-semibold border-t border-x">
@@ -25,14 +22,35 @@
     </div>
 
     <div class="container mx-auto">
-        <% for(let i = 0; i < products.length; i++) { %>
+        <% for(let i = 0; i < products.length; i++) { 
+            let thaicategory = '';
+            if(products[i].productcategory == 'foods') {
+                thaicategory = 'อาหาร';
+            } else if(products[i].productcategory == 'drinks') {
+                thaicategory = 'เครื่องดื่ม';
+            } else if(products[i].productcategory == 'items') {
+                thaicategory = 'เครื่องใช้';
+            } else if(products[i].productcategory == 'clothes') {
+                thaicategory = 'เสื้อผ้า';
+            } else if(products[i].productcategory == 'medicine') {
+                thaicategory = 'ยาสามัญ';
+            } else if(products[i].productcategory == 'stationery') {
+                thaicategory = 'เครื่องเขียน';
+            }
+            %>
             <%- include('components/manageproductitems.ejs', {
+                productId: products[i].productid,
                 productName: products[i].productname, 
-                category: products[i].productcategory,
+                category: thaicategory,
                 price: products[i].productprice,
                 imgurl: products[i].imgurl
                 }) %>
         <% } %>
+        <div class="w-full py-2 rounded-[0_0_0.375rem_0.375rem] bg-white mb-4 border"></div>
+
+        <div class="flex justify-center items-center">
+            <a href="/addproduct" class="bg-[#222] text-white text-xl hover:text-[#F4BF14] px-4 py-2 rounded-md transition-all">เพิ่มสินค้าเข้าสู่ระบบ</a>
+        </div>
     </div>
 </body>
 </html>

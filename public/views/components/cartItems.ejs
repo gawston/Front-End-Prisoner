@@ -1,7 +1,7 @@
 <!-- cart items -->
 <div class="flex items-center bg-white gap-4 py-2 px-4 border-t border-x hover:bg-gray-100 transition-all text-md">
     <div class="w-1/2 flex items-center gap-4">
-        <img src="https://www.sahapat.co.th/product/assets/uploads/img/product/image_th/20190813095437_2533675D-CF0C-4BA0-B11D-B06B1883F33C.png" alt="product" class="w-12 h-12 object-cover rounded-md">
+        <img src="<%= imgurl %>" alt="product" class="w-12 h-12 object-cover rounded-md">
         <div>
             <div class="text-md lg:text-lg"><%= productName %></div>
             <!-- <div class="text-sm text-[#666]">รายละเอียดสินค้า</div> -->
@@ -9,11 +9,11 @@
     </div>
     <div class="w-1/6 text-center">฿ <%= price %></div>
     <div class="w-1/6 flex justify-center items-center">
-        <input class="bg-gray-50 border w-12 text-center rounded-md" type="number" name="cart-amount" id="cart-amount" value="<%= amount %>" min="1" max="100" />
+        <input class="bg-gray-50 border w-12 text-center rounded-md" type="number" name="cart-amount" id="cart-amount" value="<%= amount %>" min="1" max="100" disabled />
     </div>
-    <!-- <div class="w-1/6 text-center">฿ <span id="total<%= i %>"><%= total %></span></div> -->
     <div class="w-1/6 flex justify-center items-center">
-        <button class="text-white bg-red-500 hover:bg-red-700 py-1 px-4 rounded-md transition-all"><ion-icon name="trash"></ion-icon></button>
+        <a href="/deleteitemscart/<%= productId %>" class="bg-red-500 text-white py-1 px-2 rounded-md hover:text-[#F4BF14] transition-all cursor-pointer">ลบสินค้า</a>
     </div>
 </div>
+
 

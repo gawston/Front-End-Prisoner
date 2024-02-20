@@ -4,7 +4,7 @@
     <div class="w-1/4 text-center"><%= orderDate %></div>
     <div class="w-1/4 text-center"><%= PrisonerName %></div>
     <div class="w-1/4 text-center">
-        <form action="/order">
+        <form action="/order/<%= orderid %>">
             <!-- <a href="#" class="bg-[#222] px-2 py-[0.125rem] text-white hover:text-[#F4BF14] rounded-md transition-all">ดูรายละเอียด</a> -->
             <input type="submit" value="ดูรายละเอียด" class="bg-[#222] px-2 py-[0.125rem] text-white hover:text-[#F4BF14] rounded-md transition-all cursor-pointer">
         </form>

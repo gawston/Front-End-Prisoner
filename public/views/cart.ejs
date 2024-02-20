@@ -8,9 +8,9 @@
 </head>
 <body class="bg-gray-50">
     <!-- nvabar -->
-    <%- include('components/navbar.ejs', { userName: 'เข้าสู่ระบบ', orderCount: '12' }) %>
+    <%- include('components/navbar.ejs', { userName: 'เข้าสู่ระบบ', orderCount: cart.length }) %>
     <div class="container mx-auto text-center py-10 font-semibold text-[#222]  text-3xl lg:text-4xl">
-        ตระกร้าของฉัน (<span>12</span> รายการ)
+        ตระกร้าของฉัน (<span><%= cart.length %></span> รายการ)
     </div>
     <div class="container mx-auto lg:px-4 mb-4">
         <div class="flex flex-col">
@@ -23,15 +23,22 @@
                 <div class="w-1/6 text-center">ดำเนินการ</div>
             </div>
             <!-- cart item -->
-            <% for(let i = 0; i < 12; i++) { %>
-                <%- include('components/cartItems.ejs', {
-                    productName: 'มาม่ารสต้มยำกุ้ง ' + (i + 1),
-                    price: i + 7,
-                    amount: i + 1,
-                    // total is calculated by price * amount
-                    total: (i + 7) * (i + 1),
-                    i: i // pass i to identify each item uniquely
-                }) %>
+
+            <% if(cart.length == 0) { %>
+                <div class="flex justify-center items-center bg-white py-4 rounded-[0_0_0.375rem_0.375rem] border">
+                    <h1 class="text-xl font-semibold">ไม่มีสินค้าในตระกร้า</h1>
+                </div>
+            <% } %>
+            <% if(cart.length > 0) { %>
+                <% for (let i = 0; i < product.length; i++) { %>
+                    <%- include('components/cartItems.ejs', {
+                        productName: product[i].productname,
+                        price: product[i].productprice,
+                        amount: cart[i].amount,
+                        imgurl: product[i].imgurl,
+                        productId: cart[i].id
+                    }) %>
+                <% } %>
             <% } %>
             <!-- divider cart items -->
             <div class="w-full py-2 rounded-[0_0_0.375rem_0.375rem] bg-white mb-4 border"></div>
@@ -42,15 +49,19 @@
             </div>
 
             <!-- confirm -->
-            <form action="/history" method="get" class="flex flex-col lg:flex-row lg:justify-between items-center bg-white gap-4 py-2 px-4 border-x">
+            <form action="/checkout" method="post" class="flex flex-col lg:flex-row lg:justify-between items-center bg-white gap-4 py-2 px-4 border-x">
                 <div class="flex items-center gap-2">
                     <h1 class="text-lg font-semibold">จัดส่งให้กับ</h1>
-                    <input type="text" name="prisonerName" id="prisonerName" class="border p-2 rounded-md w-56" placeholder="กรอกชื่อผู้รับ" required>
+                    <input type="text" name="prisonername" id="prisonerName" class="border p-2 rounded-md w-56" placeholder="กรอกชื่อผู้รับ" required>
                 </div>
                 <div class="flex items-center gap-2">
                     <div class="flex items-center gap-2">
                         <p class="font-semibold">ราคารวมทั้งหมด</p>
-                        <p class="text-red-500 font-semibold">฿ 1,200</p>
+                        <% let total = 0; %>
+                        <% for(let i = 0; i < product.length; i++) { %>
+                            <% total += product[i].productprice * cart[i].amount; %>
+                        <% } %>
+                        <p class="text-red-500 font-semibold">฿ <%= total %></p>
                     </div>
                     <div>
                         <input type="submit" value="สั่งซื้อสินค้า" class="bg-[#222] text-white py-2 px-4 rounded-md hover:text-[#F4BF14] transition-all cursor-pointer">
@@ -60,10 +71,7 @@
             <!-- divider cart items -->
             <div class="w-full py-2 rounded-[0_0_0.375rem_0.375rem] bg-white mb-4 border"></div>
         </div>
-
     </div>
-    <!-- footer -->
-    <%- include('components/footer.ejs') %>
 
     <script src="../javascript/script.js"></script>
 </body>

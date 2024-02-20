@@ -22,12 +22,12 @@
                 <div class="w-1/4 text-center">ดำเนินการ</div>
             </div>
             <!-- cart item -->
-            <% for(let i = 0; i < 12; i++) { %>
+            <% for(let i = 0; i < order.length; i++) { %>
                 <%- include('components/historyItems.ejs', {
-                    orderID: 'ORD-' + (i + 1),
-                    orderDate: '2021-10-0' + (i + 1),
-                    PrisonerName: "นายมาม่า รสต้มยำกุ้ง " + (i + 1),
-                    i: i // pass i to identify each item uniquely
+                    orderid: order[i].orderid,
+                    orderID: 'ORD-' + order[i].orderid,
+                    orderDate: new Date(order[i].createdAt).getDay() + '/' + new Date(order[i].createdAt).getMonth() + '/' + new Date(order[i].createdAt).getFullYear() + ' ' + new Date(order[i].createdAt).getHours() + ':' + new Date(order[i].createdAt).getMinutes() + 'น.',
+                    PrisonerName: order[i].prisoner,
                 }) %>
             <% } %>
             <!-- divider cart items -->
