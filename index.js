@@ -29,6 +29,19 @@ axios.get(`${base}/getallproduct`)
   });
 
 app.get('/', (req, res) => {
+  if (app.locals.user != null) {
+    if(app.locals.user.statuslogin == true) {
+      // get cart length
+      axios.get(`${base}/getallcart/${app.locals.user.data.userid}`)
+        .then(response => {
+          let cart = response.data.cartuser;
+          app.locals.cartlength = cart.length;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
   res.render('index.ejs', { data: app.locals.user });
 });
  
@@ -357,6 +370,7 @@ app.get('/deleteitemscart/:id', (req, res) => {
 app.post('/checkout', (req, res) => {
   axios.post(`${base}/addorder/${app.locals.user.data.userid}`, req.body)
   .then(response => {
+      app.locals.cartlength = 0;
       res.redirect('/history');
     })
     .catch(error => {
