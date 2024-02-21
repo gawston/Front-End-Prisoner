@@ -31,8 +31,15 @@
         <hr class="my-4"/>
         <!-- New Product items -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
-            <!-- get product from app.locals.products -->
-            <% for(let i = 0; i < 4; i++) { %>
+            <% let loop = 0; 
+                if(products.length < 4) {
+                    loop = products.length;
+                } else {
+                    loop = 4;
+                }
+            %>
+
+            <% for(let i = 0; i < loop; i++) { %>
                 <%- include('components/product.ejs', {
                     productId: products[products.length - i - 1].productid,
                     productName: products[products.length - i - 1].productname, 
@@ -51,7 +58,7 @@
             <hr class="my-4"/>
             <!-- Best Seller Product items -->
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
-                <% for(let i = 0; i < 4; i++) { 
+                <% for(let i = 0; i < loop; i++) { 
                         let randomIndexArray = [];
                         let randomIndex = Math.floor(Math.random() * products.length);
                         for(let j = 0; j < randomIndexArray.length; j++) {
