@@ -19,6 +19,8 @@ app.locals.registererror = false;
 app.locals.editprofileerror = false;
 app.locals.cartlength = 0;
 
+axios.default.withCredentials = true;
+
 // get all product and set to app.locals.products
 axios.get(`${base}/getallproduct`)
   .then(response => {

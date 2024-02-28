@@ -26,9 +26,10 @@
                 <%- include('components/historyItems.ejs', {
                     orderid: order[i].orderid,
                     orderID: 'ORD-' + order[i].orderid,
-                    orderDate: new Date(order[i].createdAt).getDay() + '/' + new Date(order[i].createdAt).getMonth() + '/' + new Date(order[i].createdAt).getFullYear() + ' ' + new Date(order[i].createdAt).getHours() + ':' + new Date(order[i].createdAt).getMinutes() + 'น.',
+                    orderDate: new Date(order[i].createdAt).getDate() + '/' + (new Date(order[i].createdAt).getMonth() + 1) + '/' + new Date(order[i].createdAt).getFullYear() + ' ' + new Date(order[i].createdAt).getHours() + ':' + new Date(order[i].createdAt).getMinutes() + ' น.',
                     PrisonerName: order[i].prisoner,
                 }) %>
+            
             <% } %>
             <!-- divider cart items -->
             <div class="w-full py-2 rounded-[0_0_0.375rem_0.375rem] bg-white mb-4 border-b border-x"></div>
