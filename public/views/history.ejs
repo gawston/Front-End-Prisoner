@@ -26,7 +26,7 @@
                 <%- include('components/historyItems.ejs', {
                     orderid: order[i].orderid,
                     orderID: 'ORD-' + order[i].orderid,
-                    orderDate: new Date(order[i].createdAt).getDate() + '/' + (new Date(order[i].createdAt).getMonth() + 1) + '/' + new Date(order[i].createdAt).getFullYear() + ' ' + new Date(order[i].createdAt).getHours() + ':' + new Date(order[i].createdAt).getMinutes() + ' น.',
+                    orderDate: new Date(order[i].createdAt).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' }),
                     PrisonerName: order[i].prisoner,
                 }) %>
             
