@@ -31,6 +31,8 @@
             <% } %>
             <% if(cart.length > 0) { %>
                 <% for (let i = 0; i < product.length; i++) { %>
+                    <!-- if product in cart not found continue -->
+                    <% if(!cart[i]) continue; %>
                     <%- include('components/cartItems.ejs', {
                         productName: product[i].productname,
                         price: product[i].productprice,

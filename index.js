@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const path = require('path');
+const { get } = require('http');
 const app = express();
 
 // const base = 'http://localhost:5000';
@@ -36,7 +37,7 @@ app.get('/', (req, res) => {
       // get cart length
       axios.get(`${base}/getallcart/${app.locals.user.data.userid}`)
         .then(response => {
-          let cart = response.data.cartuser;
+          let cart = response.data.cartuser || [];
           app.locals.cartlength = cart.length;
         })
         .catch(error => {
@@ -380,32 +381,83 @@ app.post('/checkout', (req, res) => {
     });
 });
 
-app.get('/history', (req, res) => {
-  if (app.locals.user == null) {
-    res.redirect('/login');
-  } else if(app.locals.user.data.role == 'admin') {
-    axios.get(`${base}/getallorder`)
-    .then(response => {
-      res.render('history.ejs', { order: response.data });
-      // console.log(response.data);
-    })
-    .catch(error => {
-      res.redirect('/');
-      console.log(error);
-    });
-  } else {
-    axios.get(`${base}/getorderuser/${app.locals.user.data.userid}`)
-    .then(response => {
-      // app.locals.order = response.data;
-      res.render('history.ejs', { order: response.data });
-      // console.log(response.data);
-    })
-    .catch(error => {
-      console.log(error);
-      res.redirect('/');
-    });
+app.get('/history', async (req, res) => {
+  try {
+    if (app.locals.user == null) {
+      res.redirect('/login');
+    } else if(app.locals.user.data.role == 'admin') {
+      const ordersResponse = await axios.get(`${base}/getallorder`);
+      
+      const userPromises = ordersResponse.data.map(async order => {
+        try {
+          const userResponse = await axios.get(`${base}/getuser/${order.userid}`);
+          if (userResponse.data) {
+            return userResponse.data;
+          } else {
+            return { username: 'ไม่มีบัญชีผู้ใช้นี้' }; // ถ้าไม่พบ userid ในฐานข้อมูล
+          }
+        } catch (userError) {
+          console.log(userError);
+          return { username: 'ไม่มีบัญชีผู้ใช้นี้' }; // หรือจัดการข้อผิดพลาดที่เกิดขึ้นในการดึงข้อมูล
+        }
+      });
+
+      const username = await Promise.all(userPromises);
+
+      console.log('array', username);
+      res.render('history.ejs', { order: ordersResponse.data, username: username });
+    } else {
+      const userOrderResponse = await axios.get(`${base}/getorderuser/${app.locals.user.data.userid}`);
+      res.render('history.ejs', { order: userOrderResponse.data });
+    }
+  } catch (error) {
+    console.log(error);
+    res.redirect('/');
   }
 });
+
+
+// app.get('/history', async (req, res) => {
+//   if (app.locals.user == null) {
+//     res.redirect('/login');
+//   } else if(app.locals.user.data.role == 'admin') {
+//     axios.get(`${base}/getallorder`)
+//     .then(response => {
+      
+//       let username = [];
+//       for (let i = 0; i < response.data.length; i++) {
+//         axios.get(`${base}/getuserbyid/${response.data[i].userid}`)
+//         .then(response => {
+//           if (response.data) {
+//             username.push(response.data);
+//           }
+//         })
+//         .catch(error => {
+//           console.log(error);
+//         });
+//       }
+    
+//       console.log('array', username);
+//       res.render('history.ejs', { order: response.data });
+//       // console.log(response.data);
+//     })
+//     .catch(error => {
+//       res.redirect('/');
+//       console.log(error);
+//     });
+//   } else {
+//     axios.get(`${base}/getorderuser/${app.locals.user.data.userid}`)
+//     .then(response => {
+//       // app.locals.order = response.data;
+//       res.render('history.ejs', { order: response.data });
+//       // console.log(response.data);
+//     })
+//     .catch(error => {
+//       console.log(error);
+//       res.redirect('/');
+//     });
+//   }
+// });
 
 // app.get('/order', (req, res) => {
 //   if (app.locals.user == null) {

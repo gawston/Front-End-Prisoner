@@ -18,18 +18,33 @@
             <div class="flex items-center bg-white gap-4 py-2 px-4 rounded-[0.375rem_0.375rem_0_0] font-semibold border">
                 <div class="w-1/4 text-center">รหัสการสั่งซื้อ</div>
                 <div class="w-1/4 text-center">วันที่สั่งซื้อ</div>
+                <% if(user.data.role === 'admin') { %>
+                    <div class="w-1/4 text-center">ผู้สั่งซื้อ</div>
+                <% } %>
                 <div class="w-1/4 text-center">ผู้รับ</div>
                 <div class="w-1/4 text-center">ดำเนินการ</div>
             </div>
-            <!-- cart item -->
-            <% for(let i = 0; i < order.length; i++) { %>
-                <%- include('components/historyItems.ejs', {
-                    orderid: order[i].orderid,
-                    orderID: 'ORD-' + order[i].orderid,
-                    orderDate: new Date(order[i].createdAt).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' }),
-                    PrisonerName: order[i].prisoner,
-                }) %>
-            
+
+            <% if(user.data.role != 'admin') { %>
+                <% for(let i = 0; i < order.length; i++) { %>
+                    <%- include('components/historyItems.ejs', {
+                        orderid: order[i].orderid,
+                        orderID: 'ORD-' + order[i].orderid,
+                        orderDate: new Date(order[i].createdAt).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' }),
+                        PrisonerName: order[i].prisoner,
+                    }) %>
+                
+                <% } %>
+            <% } else { %>
+                <% for(let i = 0; i < order.length; i++) { %>
+                    <%- include('components/adminHistoryItems.ejs', {
+                        orderid: order[i].orderid,
+                        orderID: 'ORD-' + order[i].orderid,
+                        orderDate: new Date(order[i].createdAt).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' }),
+                        Username: username[i].username,
+                        PrisonerName: order[i].prisoner,
+                    }) %>
+                <% } %>
             <% } %>
             <!-- divider cart items -->
             <div class="w-full py-2 rounded-[0_0_0.375rem_0.375rem] bg-white mb-4 border-b border-x"></div>

@@ -1,0 +1,13 @@
+<!-- historyItems.ejs -->
+<div class="flex items-center bg-white hover:bg-gray-100 transition-all gap-4 py-2 px-4 border-b border-x">
+    <div class="w-1/4 text-center"><%= orderID %></div>
+    <div class="w-1/4 text-center"><%= orderDate %></div>
+    <div class="w-1/4 text-center"><%= Username %></div>
+    <div class="w-1/4 text-center"><%= PrisonerName %></div>
+    <div class="w-1/4 text-center">
+        <form action="/order/<%= orderid %>">
+            <!-- <a href="#" class="bg-[#222] px-2 py-[0.125rem] text-white hover:text-[#F4BF14] rounded-md transition-all">ดูรายละเอียด</a> -->
+            <input type="submit" value="ดูรายละเอียด" class="bg-[#222] px-2 py-[0.125rem] text-white hover:text-[#F4BF14] rounded-md transition-all cursor-pointer">
+        </form>
+    </div>
+</div>
