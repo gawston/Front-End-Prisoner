@@ -1,6 +1,6 @@
 <form action="/addtocart" method="post" class="w-full p-4">
-    <% if(user != null) { %>
-    <input class="hidden" type="text" name="userid" id="userId" value="<%= user.data.userid %>">
+    <% if(data != null) { %>
+    <input class="hidden" type="text" name="userid" id="userId" value="<%= data.data.userid %>">
     <% } %>
     <input class="hidden" type="text" name="id" id="id" value="<%= productId %>">
     <div class="bg-white p-4 border hover:shadow-lg transition-all rounded-md overflow-hidden cursor-pointer">

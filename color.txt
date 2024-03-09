@@ -1,2 +1,0 @@
-Primary : #F4BF14
-black : #222

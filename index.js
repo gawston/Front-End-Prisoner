@@ -1,8 +1,8 @@
 const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const path = require('path');
-const { get } = require('http');
 const app = express();
 
 // const base = 'http://localhost:5000';
@@ -14,7 +14,13 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.locals.user = null;
+app.use(session({
+  secret: 'secretisprisoner',
+  resave: true,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+
 app.locals.loginerror = false;
 app.locals.registererror = false;
 app.locals.editprofileerror = false;
@@ -32,10 +38,10 @@ axios.get(`${base}/getallproduct`)
   });
 
 app.get('/', (req, res) => {
-  if (app.locals.user != null) {
-    if(app.locals.user.statuslogin == true) {
+  if (req.session.user != null) {
+    if(req.session.user.statuslogin == true) {
       // get cart length
-      axios.get(`${base}/getallcart/${app.locals.user.data.userid}`)
+      axios.get(`${base}/getallcart/${req.session.user.data.userid}`)
         .then(response => {
           let cart = response.data.cartuser || [];
           app.locals.cartlength = cart.length;
@@ -45,7 +51,7 @@ app.get('/', (req, res) => {
         });
     }
   }
-  res.render('index.ejs', { data: app.locals.user });
+  res.render('index.ejs', { data: req.session.user });
 });
  
 app.get('/register', (req, res) => {
@@ -77,7 +83,8 @@ app.post('/login', (req, res) => {
   axios.post(`${base}/login`, req.body)
     .then(response => {
       if (response.data.statuslogin == true) {
-        app.locals.user = response.data;
+        req.session.user = response.data;
+        console.log(req.session.user);
         res.redirect('/');
       } else {
         app.locals.loginerror = true;
@@ -90,37 +97,37 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-  app.locals.user = null;
+  req.session.destroy();
   res.redirect('/');
 });
 
 app.get('/profile', (req, res) => {
-  if (app.locals.user == null) {
+  if (req.session.user == null) {
     res.redirect('/login');
   } else {
-    res.render('profile.ejs', { data: app.locals.user });
+    res.render('profile.ejs', { data: req.session.user });
   }
 });
 
 app.get('/editprofile', (req, res) => {
-  if (app.locals.user == null) {
+  if (req.session.user == null) {
     res.redirect('/login');
   } else {
-    res.render('editprofile.ejs', { data: app.locals.user });
+    res.render('editprofile.ejs', { data: req.session.user });
     app.locals.editprofileerror = false;
   }
 });
 
 app.post('/editprofile', (req, res) => {
-  console.log("id", app.locals.user.data.userid);
-  axios.put(`${base}/updateuser/${app.locals.user.data.userid}`, req.body)
+  console.log("id", req.session.user.data.userid);
+  axios.put(`${base}/updateuser/${req.session.user.data.userid}`, req.body)
     .then(response => {
       if(response.data.updatefailed == true) {
         app.locals.editprofileerror = true;
         res.redirect('/editprofile');
       } else {
-        app.locals.user = {statuslogin: true, data: response.data};
-        console.log(app.locals.user);
+        req.session.user = {statuslogin: true, data: response.data};
+        console.log(req.session.user);
         res.redirect('/profile');
       }
     })
@@ -130,9 +137,9 @@ app.post('/editprofile', (req, res) => {
 });
 
 app.get('/deleteuser', (req, res) => {
-  axios.delete(`${base}/deleteuser/${app.locals.user.data.userid}`)
+  axios.delete(`${base}/deleteuser/${req.session.user.data.userid}`)
     .then(response => {
-      app.locals.user = null;
+      req.session.destroy();
       res.redirect('/login');
     })
     .catch(error => {
@@ -141,12 +148,12 @@ app.get('/deleteuser', (req, res) => {
 });
 
 app.get('/addproduct', (req, res) => {
-  if (app.locals.user == null) {
+  if (req.session.user == null) {
     res.redirect('/login');
-  } else if (app.locals.user.data.role != 'admin') {
+  } else if (req.session.user.data.role != 'admin') {
     res.redirect('/');
   } else {
-    res.render('addproduct.ejs');
+    res.render('addproduct.ejs', { data: req.session.user});
   }
 });
 
@@ -156,7 +163,7 @@ app.post('/addproduct', (req, res) => {
       axios.get(`${base}/getallproduct`)
         .then(response => {
           app.locals.products = response.data;
-          res.render('manageproduct.ejs', { products: app.locals.products });
+          res.render('manageproduct.ejs', { products: app.locals.products, data: req.session.user});
         })
         .catch(error => {
           res.redirect('/');
@@ -168,12 +175,12 @@ app.post('/addproduct', (req, res) => {
 });
 
 app.get('/manageproduct', (req, res) => {
-  if (app.locals.user == null) {
+  if (req.session.user == null) {
     res.redirect('/login');
-  } else if (app.locals.user.data.role != 'admin') {
+  } else if (req.session.user.data.role != 'admin') {
     res.redirect('/');
   } else {
-    res.render('manageproduct.ejs', { products: app.locals.products });
+    res.render('manageproduct.ejs', { products: app.locals.products, data: req.session.user});
   }
 });
 
@@ -181,7 +188,7 @@ app.get('/product', (req, res) => {
   axios.get(`${base}/getallproduct`)
     .then(response => {
       app.locals.products = response.data;
-      res.render('allproduct.ejs', { products: response.data });
+      res.render('allproduct.ejs', { products: response.data, data: req.session.user});
     })
     .catch(error => {
       res.redirect('/');
@@ -191,7 +198,7 @@ app.get('/product', (req, res) => {
 app.get('/product/:category', (req, res) => {
   axios.get(`${base}/getproduct/${req.params.category}`)
     .then(response => {
-      res.render('allproduct.ejs', { products: response.data });
+      res.render('allproduct.ejs', { products: response.data, data: req.session.user});
     })
     .catch(error => {
       res.redirect('/');
@@ -200,14 +207,14 @@ app.get('/product/:category', (req, res) => {
 });
 
 app.get('/editproduct/:id', (req, res) => {
-  if (app.locals.user == null) {
+  if (req.session.user == null) {
     res.redirect('/login');
-  } else if (app.locals.user.data.role != 'admin') {
+  } else if (req.session.user.data.role != 'admin') {
     res.redirect('/');
   } else {
     axios.get(`${base}/getproductbyid/${req.params.id}`)
       .then(response => {
-        res.render('editproduct.ejs', { product: response.data });
+        res.render('editproduct.ejs', { product: response.data, data: req.session.user});
       })
       .catch(error => {
         res.redirect('/manageproduct');
@@ -221,7 +228,7 @@ app.post('/editproduct/:id', (req, res) => {
       axios.get(`${base}/getallproduct`)
         .then(response => {
           app.locals.products = response.data;
-          res.render('manageproduct.ejs', { products: app.locals.products });
+          res.render('manageproduct.ejs', { products: app.locals.products, data: req.session.user});
         })
         .catch(error => {
           res.redirect('/');
@@ -238,7 +245,7 @@ app.get('/deleteproduct/:id', (req, res) => {
       axios.get(`${base}/getallproduct`)
         .then(response => {
           app.locals.products = response.data;
-          res.render('manageproduct.ejs', { products: app.locals.products });
+          res.render('manageproduct.ejs', { products: app.locals.products, data: req.session.user});
         })
         .catch(error => {
           res.redirect('/');
@@ -250,16 +257,16 @@ app.get('/deleteproduct/:id', (req, res) => {
 });
 
 app.get('/cart', (req, res) => {
-  if (app.locals.user == null) {
+  if (req.session.user == null) {
     res.redirect('/login');
   } else {
-    axios.get(`${base}/getallcart/${app.locals.user.data.userid}`)
+    axios.get(`${base}/getallcart/${req.session.user.data.userid}`)
       .then(response => {
         let cart = response.data.cartuser;
         app.locals.cartlength = cart.length;
 
         if (cart == null || cart.length === 0) {
-          res.render('cart.ejs', { cart: cart, product: [] });
+          res.render('cart.ejs', { cart: cart, product: [], data: req.session.user});
         } else {
           // Filter out any null or undefined values from cart array
           cart = cart.filter(item => item && item.id);
@@ -277,7 +284,7 @@ app.get('/cart', (req, res) => {
               }
             });
 
-            res.render('cart.ejs', { cart: cart, product: product });
+            res.render('cart.ejs', { cart: cart, product: product, data: req.session.user });
           })
           .catch(error => {
             res.redirect('/');
@@ -291,17 +298,17 @@ app.get('/cart', (req, res) => {
 });
 
 app.post('/addtocart', (req, res) => {
-  if(app.locals.user == null) {
+  if(req.session.user == null) {
     res.redirect('/login');
   } else {
     axios.post(`${base}/addcart/${req.body.id}`, req.body)
       .then(response => {
-        axios.get(`${base}/getallcart/${app.locals.user.data.userid}`)
+        axios.get(`${base}/getallcart/${req.session.user.data.userid}`)
           .then(response => {
             let cart = response.data.cartuser;
             app.locals.cartlength = cart.length;
             if (cart == null || cart.length === 0) {
-              res.render('cart.ejs', { cart: cart, product: [] });
+              res.render('cart.ejs', { cart: cart, product: [], data: req.session.user});
             } else {
               Promise.all(cart.map(item => {
                 return axios.get(`${base}/getproductbyid/${item.id}`);
@@ -313,7 +320,7 @@ app.post('/addtocart', (req, res) => {
                   product.push(productResponse.data);
                 });
 
-                res.render('cart.ejs', { cart: cart, product: product });
+                res.render('cart.ejs', { cart: cart, product: product, data: req.session.user});
                 // console.log(product);
               })
               .catch(error => {
@@ -333,14 +340,14 @@ app.post('/addtocart', (req, res) => {
 
 // delete cart item
 app.get('/deleteitemscart/:id', (req, res) => {
-  axios.post(`${base}/deletecart/${app.locals.user.data.userid}/${req.params.id}`)
+  axios.post(`${base}/deletecart/${req.session.user.data.userid}/${req.params.id}`)
     .then(response => {
-      axios.get(`${base}/getallcart/${app.locals.user.data.userid}`)
+      axios.get(`${base}/getallcart/${req.session.user.data.userid}`)
         .then(response => {
           let cart = response.data.cartuser;
           app.locals.cartlength = cart.length;
           if (cart == null || cart.length === 0) {
-            res.render('cart.ejs', { cart: cart, product: [] });
+            res.render('cart.ejs', { cart: cart, product: [], data: req.session.user});
           } else {
             Promise.all(cart.map(item => {
               return axios.get(`${base}/getproductbyid/${item.id}`);
@@ -352,7 +359,7 @@ app.get('/deleteitemscart/:id', (req, res) => {
                 product.push(productResponse.data);
               });
 
-              res.render('cart.ejs', { cart: cart, product: product });
+              res.render('cart.ejs', { cart: cart, product: product, data: req.session.user });
             })
             .catch(error => {
               res.redirect('/');
@@ -371,7 +378,7 @@ app.get('/deleteitemscart/:id', (req, res) => {
 
 // checkout
 app.post('/checkout', (req, res) => {
-  axios.post(`${base}/addorder/${app.locals.user.data.userid}`, req.body)
+  axios.post(`${base}/addorder/${req.session.user.data.userid}`, req.body)
   .then(response => {
       app.locals.cartlength = 0;
       res.redirect('/history');
@@ -383,9 +390,9 @@ app.post('/checkout', (req, res) => {
 
 app.get('/history', async (req, res) => {
   try {
-    if (app.locals.user == null) {
+    if (req.session.user == null) {
       res.redirect('/login');
-    } else if(app.locals.user.data.role == 'admin') {
+    } else if(req.session.user.data.role == 'admin') {
       const ordersResponse = await axios.get(`${base}/getallorder`);
       
       const userPromises = ordersResponse.data.map(async order => {
@@ -405,10 +412,10 @@ app.get('/history', async (req, res) => {
       const username = await Promise.all(userPromises);
 
       console.log('array', username);
-      res.render('history.ejs', { order: ordersResponse.data, username: username });
+      res.render('history.ejs', { order: ordersResponse.data, username: username, data: req.session.user});
     } else {
-      const userOrderResponse = await axios.get(`${base}/getorderuser/${app.locals.user.data.userid}`);
-      res.render('history.ejs', { order: userOrderResponse.data });
+      const userOrderResponse = await axios.get(`${base}/getorderuser/${req.session.user.data.userid}`);
+      res.render('history.ejs', { order: userOrderResponse.data, data: req.session.user});
     }
   } catch (error) {
     console.log(error);
@@ -418,9 +425,9 @@ app.get('/history', async (req, res) => {
 
 
 // app.get('/history', async (req, res) => {
-//   if (app.locals.user == null) {
+//   if (req.session.user == null) {
 //     res.redirect('/login');
-//   } else if(app.locals.user.data.role == 'admin') {
+//   } else if(req.session.user.data.role == 'admin') {
 //     axios.get(`${base}/getallorder`)
 //     .then(response => {
       
@@ -446,7 +453,7 @@ app.get('/history', async (req, res) => {
 //       console.log(error);
 //     });
 //   } else {
-//     axios.get(`${base}/getorderuser/${app.locals.user.data.userid}`)
+//     axios.get(`${base}/getorderuser/${req.session.user.data.userid}`)
 //     .then(response => {
 //       // app.locals.order = response.data;
 //       res.render('history.ejs', { order: response.data });
@@ -460,9 +467,9 @@ app.get('/history', async (req, res) => {
 // });
 
 // app.get('/order', (req, res) => {
-//   if (app.locals.user == null) {
+//   if (req.session.user == null) {
 //     res.redirect('/login');
-//   } else if (app.locals.user.data.role == 'admin') {
+//   } else if (req.session.user.data.role == 'admin') {
 //     axios.get(`${base}/getallorder`)
 //     .then(response => {
 //       console.log(response.data);
@@ -484,7 +491,7 @@ app.get('/history', async (req, res) => {
 //       // }
 //     })
 //   } else {
-//     axios.get(`${base}/getorderuser/${app.locals.user.data.userid}`)
+//     axios.get(`${base}/getorderuser/${req.session.user.data.userid}`)
 //       .then(response => {
 //       let order = JSON.parse(response.data[0].cartuser);
 //       axios.get(`${base}/getallproduct`)
@@ -512,7 +519,7 @@ app.get('/history', async (req, res) => {
 // });
 
 app.get('/order/:orderid', (req, res) => {
-  if(app.locals.user == null) {
+  if(req.session.user == null) {
     res.redirect('/login');
   } else {
     axios.get(`${base}/getbyorder/${req.params.orderid}`)
@@ -528,7 +535,7 @@ app.get('/order/:orderid', (req, res) => {
               }
             }
           }
-          res.render('orderdetails.ejs', { order: order, productss: productss });
+          res.render('orderdetails.ejs', { order: order, productss: productss, data: req.session.user });
         })
         .catch(error => {
           console.log(error);
