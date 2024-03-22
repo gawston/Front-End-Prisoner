@@ -11,7 +11,7 @@
     <div class="w-1/6 text-center"><%= price %></div>
     <div class="w-1/6 flex flex-col lg:flex-row justify-center items-center gap-2">
         <a href="/editproduct/<%= productId %>" class="text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-4 rounded-md transition-all">แก้ไข</a>
-        <a href="/deleteproduct/<%= productId %>" class="text-white bg-red-500 hover:bg-red-600 py-1 px-4 rounded-md transition-all" onclick="confirm('คุณต้องการลบสินค้านี้หรือไม่');">ลบสินค้า</a>
+        <a href="/deleteproduct/<%= productId %>" class="text-white bg-red-500 hover:bg-red-600 py-1 px-4 rounded-md transition-all" onclick="return confirm('คุณต้องการลบสินค้านี้หรือไม่');">ลบสินค้า</a>
     </div>
 </div>
 
